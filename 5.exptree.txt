@@ -1,0 +1,152 @@
+#include<iostream>
+using namespace std;
+
+struct node{
+    char data;
+    node* left;
+    node* right;
+};
+
+class Stack{
+    public:
+        node* *arr;
+        int size;
+        int top;
+        
+        Stack(int n)
+        {
+            size = n;
+            arr = new node*[size];
+            top = -1;
+        }
+        void push(node* data)
+        {
+            //check full
+            if(top == size-1)
+            {
+                cout << "Stack Overflow" << endl;
+                return;
+            }
+            else
+            {
+                arr[++top] = data;
+            }
+        }
+        void pop()
+        {
+            if(top == -1){
+                cout << "Stack Underflow" << endl;
+            }
+            else{
+                top--;
+            }
+        }
+        node* topp()
+        {
+            if(top == -1)
+            {
+                cout << "Stack Underflow" << endl;
+            }
+            else 
+                return arr[top];
+        }
+
+        bool isempty()
+        {
+            if(top == -1) return true;
+            else return false;
+        }
+};
+
+bool isalphabet(char ch)
+{
+    if(ch >= 'a' && ch <= 'z')
+        return true;
+    return false;
+}
+
+void Create_Tree(char prefix[] , int n , node*& root)
+{
+    Stack st(20);
+    char ch;
+    for(int i = n-1 ; i >= 0 ; i--){
+        ch = prefix[i];
+        node* top = new node;
+        top->left = NULL;
+        top->right = NULL;
+
+        if(isalphabet(ch)){
+            top->data = ch;
+            st.push(top);
+        }
+        else if(ch == '+' || ch == '-' || ch == '*' || ch == '/'){
+            node* top2 = st.topp();
+            st.pop();
+            node* top1 = st.topp();
+            st.pop();
+
+            top->data = ch;
+            top->left = top2;
+            top->right = top1;
+            st.push(top);
+        }
+    }
+    root = st.topp();
+}
+
+void PostOrder(node* top)
+{
+    Stack s1(20),s2(20);
+    s1.push(top);
+
+    while(!s1.isempty()){
+        node* temp = s1.topp();
+        s1.pop();
+        s2.push(temp);
+        if(temp->left){
+            s1.push(temp->left);
+        }
+        if(temp->right){
+            s1.push(temp->right);
+        }
+    }
+    cout << "\n\nPostOrder Traversal : ";
+    while(!s2.isempty())
+    {
+        char ch = s2.topp()->data;
+        cout << ch ;
+        s2.pop();
+    }
+}
+
+void del(node *node){
+    if (node == NULL)
+        return;
+
+    del(node->left);
+    del(node->right);
+    /* then delete the node */
+    cout <<endl<<"Deleting node : " << node->data<<endl;
+    // free(node); for C
+    delete(node);
+}
+
+int main()
+{
+    node* root = NULL;
+    char prefix[20];
+    cout << "\nEnter Number of Character in Prefix : ";
+    int n;
+    cin >> n;
+    cout << "\nEnter Prefix Expression : ";
+    for(int i = 0 ; i < n ; i++)
+    {
+        cin >> prefix[i];
+    }
+    
+    Create_Tree(prefix , n , root);
+    PostOrder(root);
+    del(root);
+    
+    return 0;
+}

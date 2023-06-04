@@ -1,0 +1,192 @@
+#function to input telephone number
+def get_tele(tele):
+        n = int(input("Enter Number of clients(N) : "))
+        print()
+        for i in range(n):
+                m = int(input(f"Enter telephone Number for {i+1} Client : "))
+                tele.append(m)
+
+#function to display hash table(linear Proing)
+def disp1d(hash):
+    print("\nClient's Records :- \n") 
+    print("Position       Telephone")   
+    for i in range(10):
+        print(i , "\t    -> \t" , hash[i])
+
+#function to display hash table(chainning without replacement)
+def disp2d(hash):
+    print("\nClient's Records :- \n") 
+    print("Position","\t" , "Telephone" , "\t" , "Chainning")  
+    for i in range(10):
+        print(i , "\t\t",hash[i][0] , "\t\t",hash[i][1])
+     
+#function to search a client(linear probing)
+def search(hash):
+    ele = int(input("Enter Client's Number to be Searched : "))
+    key = ele % 10
+    if(hash[key] == ele):
+        print(f"Client's Record Found at Location : {key}")
+    else:
+        index = key + 1
+        while(index < 10):
+            if(hash[index] == ele):
+                print(f"Client's Record Found at Location : {index}")
+                break
+            elif(index == 9):
+                index = 0
+            elif(index == key):
+                print("Element not present")
+                break
+            else:
+                index += 1
+
+#function for linear probing
+def linearProbing(hash, tele):
+    for i in tele:
+        key = i % 10
+        if(hash[key] == -1):
+            hash[key] = i
+        elif(hash[key] != -1):
+            index = key + 1
+            while(1): 
+                if(hash[index] == -1):
+                    hash[index] = i
+                    break
+                elif(hash[index] != -1):
+                    if(index == 9):
+                        index = 0
+                    else:
+                        index += 1
+                if(index == key):
+                    print("Hashtable full")
+                    break
+
+#function for handling collision with chainning without replacement
+def collision1(hash , tele):
+    for i in tele:
+        key = i % 10
+        if(hash[key][0] == -1):
+            hash[key][0] = i
+        elif(hash[key][0] != -1):
+            index = key + 1
+            while(1):
+                if(hash[index][0] == -1):
+                    hash[index][0] = i
+                    temp = key
+                    while(hash[temp][1] != -1):
+                        temp = hash[temp][1]
+                    hash[temp][1] = index
+                    break
+                elif(hash[index][0] != -1):
+                    if(index == 9):
+                        index = 0
+                    else:
+                        index += 1
+                if(index == key):
+                    print("Hashtable Full")
+                    break
+
+# (chainning without replacement) Searching
+def Search(hash):
+    n = int(input("Enter Client's Number to be Searched : "))
+    key = n%10
+    if(hash[key][0] == n):
+        print(f"Client's Record Found at Location : {key}")
+        return
+    elif(hash[key][0] != n):
+        index = hash[key][1]
+        while(1):
+            if(index == -1 and hash[index][0] != n):
+                print("Record Not Found ...!")
+                return
+            if(hash[index][0] == n):
+                print(f"Client's Record Found at Location : {index}")
+                return
+            elif(hash[index][0] != n):
+                index = hash[index][1]
+
+        
+# ------------------------------------ MAIN ------------------------------------
+tele1 = []
+tele2 = []
+hash1 = []
+for i in range(10):
+    hash1.append(-1)
+
+hash2 =[]
+for i in range(10):
+    hash2.append([])
+    for j in range(2):
+        hash2[i].append(-1)
+
+ans1 = True
+ans2 = True
+ans3 = True
+while(ans1):
+    print("\n---------------- COLLISION HANDLING TECHNIQUE ----------------")
+    print("1. Linear Probing")
+    print("2. Chainning Without Replacement.")
+    print("3. Exit")
+
+    choice = int(input("\nEnter Your Choice : "))
+
+    match choice:
+        case 1:
+            while(ans2):
+                print("\n1. Add Client's Record.")
+                print("2. Display Record Table.")
+                print("3. Search a Particular Record.")
+                print("4. Exit")
+
+                choice2 = int(input("\nEnter Your Choice : "))
+
+                match choice2:
+                    case 1:
+                        get_tele(tele1)
+                        linearProbing(hash1 , tele1)
+                        print("\nRecords Added Successfully.")
+
+                    case 2:
+                        disp1d(hash1)
+                    
+                    case 3:
+                        search(hash1)
+
+                    case 4:
+                        ans2 = False
+
+                    case _:
+                        print("Enter valid choice...!")
+
+        case 2:
+            while(ans3):
+                print("\n1. Add Client's Record.")
+                print("2. Display Record Table.")
+                print("3. Search a Particular Record.")
+                print("4. Exit")
+
+                choice3 = int(input("\nEnter Your Choice : "))
+
+                match choice3:
+                    case 1:
+                        get_tele(tele2)
+                        collision1(hash2 , tele2)
+                        print("\nRecords Added Successfully.")
+
+                    case 2:
+                        disp2d(hash2)
+
+                    case 3:
+                        Search(hash2)
+
+                    case 4:
+                        ans3 = False
+
+                    case _:
+                        print("Enter valid choice...!")
+            
+        case 3:
+            ans1 = False
+
+        case _:
+            print("Enter valid choice...!")

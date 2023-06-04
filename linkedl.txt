@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+class LinkedList {
+Node* head;
+
+public:
+    LinkedList() {
+        head = nullptr;
+    }
+
+    void insert(int value) {
+        Node* newNode = new Node;
+        newNode->data = value;
+        newNode->next = nullptr;
+
+        if (head == nullptr) {
+            head = newNode;
+        } else {
+            Node* current = head;
+            while (current->next != nullptr) {
+                current = current->next;
+            }
+            current->next = newNode;
+        }
+    }
+
+    void display() {
+        if (head == nullptr) {
+            std::cout << "Linked list is empty!" << std::endl;
+        } else {
+            Node* current = head;
+            while (current != nullptr) {
+                std::cout << current->data << " ";
+                current = current->next;
+            }
+            std::cout << std::endl;
+        }
+    }
+};
+
+int main() {
+    LinkedList lin;
+    int i,n,ch;
+    bool ans=true;
+    while(ans){
+        cout<<endl<<"Menu"<<endl<<"---------";
+        cout<<endl<<"1.Create"<<endl<<"2.Insert a value"<<endl<<"3.Display"<<endl<<"4.Exit";
+        cout<<endl<<"Enter your choice :";
+        cin>>ch;
+        switch(ch){
+            case 1:
+                cout<<"Enter no. of Elements :";
+                cin>>n;
+                while(n--){
+                    cout<<endl<<"Enter Data :";
+                    cin>>i;
+                    lin.insert(i);
+                 }
+                 break;
+            case 2:
+                cout<<endl<<"Enter Data :";
+                cin>>i;
+                lin.insert(i);
+                break;
+            case 3:
+                cout<<endl<<"Linked List is :";
+                lin.display();
+                break;
+            case 4:
+                cout<<"Program Exited";
+                ans=false;
+                break;
+            default:
+                cout<<endl<<"Enter valid choice";
+                break;
+        }
+    }
+}

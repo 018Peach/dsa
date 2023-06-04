@@ -1,0 +1,166 @@
+/*
+        Implement the Heap/Shell sort algorithm implemented in Java
+        demonstrating heap/shell data structure with modularity of
+        programming language
+ */
+
+import java.util.Scanner;
+
+class Heapsort<T extends Comparable<T> >
+{
+    private T arr[];
+    private int n;
+
+    public Heapsort(T data[] , int n)
+    {
+        this.arr = data;
+        this.n = n;
+    }
+
+    public void heapify(T[] arr , int n, int i)
+    {
+        int largest = i;
+        int leftChild = 2*i;
+        int rightChild = 2*i+1;
+
+        if(leftChild <= n && arr[leftChild].compareTo(arr[largest]) > 0)
+        {
+            largest = leftChild;
+        }
+        if(rightChild <= n && arr[rightChild].compareTo(arr[largest]) > 0)
+        {
+            largest = rightChild;
+        }
+
+        if(largest != i)
+        {
+            //swap value
+            T temp = arr[largest];
+            arr[largest] = arr[i];
+            arr[i] = temp;
+
+            heapify(arr , n , largest);
+        }
+    }
+
+    public void sort()
+    {
+        for(int i = n/2 ; i > 0 ; i--)
+        {
+            heapify(arr,n,i);
+        }
+
+        int size = n;
+        while(size >= 1)
+        {
+            T temp = arr[1];
+            arr[1] = arr[size];
+            arr[size] = temp;
+            size--;
+            heapify(arr , size , 1);
+        }
+    }
+
+    public void display()
+    {
+        System.out.println();
+        System.out.print("Sorted Data : ");
+        for(int i = 1 ; i <= n ; i++)
+        {
+            System.out.print(arr[i] + ",");
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+//        String[] arr = new String[6];
+        //System.out.println(6/2);
+
+        //Heapsort heap1 = new Heapsort<String>(arr , 5);
+
+        Boolean ans = true;
+
+        while(ans)
+        {
+            System.out.println("\n\n************* Heap Sort *************\n");
+            System.out.println("1. Integer Data.");
+            System.out.println("2. Character Data.");
+            System.out.println("3. String Data.");
+            System.out.println("4. Float Data.");
+            System.out.println("5. Exit");
+
+            System.out.print("\nEnter Your Choice : ");
+            int choice = sc.nextInt();
+
+            switch (choice)
+            {
+                case 1:
+                    System.out.print("Enter Number of Entries : ");
+                    int int_n = sc.nextInt();
+                    Integer[] arr1 = new Integer[int_n+1];
+                    System.out.println("Enter Data : ");
+                    for(int i = 1 ; i <= int_n ; i++)
+                    {
+                        arr1[i] = sc.nextInt();
+                    }
+                    Heapsort heap1 = new Heapsort<Integer>(arr1 , int_n);
+                    heap1.sort();
+                    heap1.display();
+                    break;
+
+                case 2:
+                    System.out.print("Enter Number of Entries : ");
+                    int char_n = sc.nextInt();
+                    Character[] arr2 = new Character[char_n+1];
+                    System.out.println("Enter Data : ");
+                    for(int i = 1 ; i <= char_n ; i++)
+                    {
+                        String temp= sc.next();
+                        arr2[i] = temp.charAt(0);
+                    }
+                    Heapsort heap2 = new Heapsort<Character>(arr2 , char_n);
+                    heap2.sort();
+                    heap2.display();
+                    break;
+
+                case 3:
+                    System.out.print("Enter Number of Entries : ");
+                    int str_n = sc.nextInt();
+                    String[] arr3 = new String[str_n+1];
+                    System.out.println("Enter Data : ");
+                    for(int i = 1 ; i <= str_n ; i++)
+                    {
+                        arr3[i] = sc.next();
+                    }
+                    Heapsort heap3 = new Heapsort<String>(arr3 , str_n);
+                    heap3.sort();
+                    heap3.display();
+                    break;
+
+                case 4:
+                    System.out.print("Enter Number of Entries : ");
+                    int flo_n = sc.nextInt();
+                    Float[] arr4 = new Float[flo_n+1];
+                    System.out.println("Enter Data : ");
+                    for(int i = 1 ; i <= flo_n ; i++)
+                    {
+                        arr4[i] = sc.nextFloat();
+                    }
+                    Heapsort heap4 = new Heapsort<Float>(arr4 , flo_n);
+                    heap4.sort();
+                    heap4.display();
+                    break;
+
+                case 5:
+                    ans = false;
+                    break;
+
+                default:
+                    System.out.println("Enter Valid Choice ...!");
+                    break;
+            }
+        }
+    }
+}

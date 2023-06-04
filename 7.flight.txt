@@ -1,0 +1,143 @@
+#include<iostream>
+#include<stack>
+#include<queue>
+#include<iomanip>
+using namespace std;
+#define MAX 10
+
+class graph
+{
+    public:
+        struct node
+        {
+            int airport_no;
+            int time;
+            node* next;
+        };
+
+        node* head[MAX];
+        int visit[MAX];
+        int total_airport;
+        int Routes;
+        void create_graph()
+        {
+            for(int i = 0 ; i < MAX ; i++)
+            {
+                head[i] = NULL;
+            }
+            int A1,A2,T;
+            cout << "\nEnter Total Number of Airports : ";
+            cin >> total_airport;
+            cout << "\nEnter Total Number of Routes : ";
+            cin >> Routes;
+            cout << "\nEnter Routes in Airport(Number) : \n";
+            for(int i = 0 ; i < Routes ; i++)
+            {
+                cout << "\nEnter Airport 1 :";
+                cin >> A1;
+                cout << "Enter Airport 2 : ";
+                cin >> A2;
+                cout << "Enter Time Required to reach Airport 2 : ";
+                cin >> T;
+
+                node* a2 = new node;
+                a2->airport_no = A2;
+                a2->time = T;
+                a2->next = NULL;
+
+                if(head[A1] == NULL)
+                {
+                    head[A1] = a2;
+                }
+                else
+                {
+                    node* temp = head[A1];
+                    while(temp->next != NULL)
+                    {
+                        temp = temp->next;
+                    }
+                    temp->next = a2;
+                }
+                
+                node* a1 = new node;
+                a1->airport_no = A1;
+                a1->time = T;
+                a1->next = NULL;
+
+                if(head[A2] == NULL)
+                {
+                    head[A2] = a1;
+                }
+                else
+                {
+                    node* temp2 = head[A2];
+                    while(temp2->next != NULL)
+                    {
+                        temp2 = temp2->next;
+                    }
+                    temp2->next = a1;
+                }
+            }
+        }
+
+        void BFS()
+        {
+            int starting_vertex;
+            cout << "\nEnter Airport's Starting Location Number : ";
+            cin >> starting_vertex;
+            cout << left;
+            cout << "\nJourney From Airport Number : " << starting_vertex;
+            cout << "\nBoarding Port";
+            cout << "\t\t" << "Destination Port";
+            cout << "\t" << "Time Required";
+            cout << endl;
+            node* journey = head[starting_vertex];
+            while(journey != NULL)
+            {
+                cout << left;
+                cout << "Airport : " << starting_vertex;
+                cout << "\t\t" << "Airport : " << journey->airport_no;
+                cout << "\t\t" << journey->time << " Hrs";
+                cout << endl;
+                journey = journey->next;
+            }
+        }
+};
+
+int main()
+{
+    bool ans = true;
+    int choice;
+    graph g;
+    while(ans)
+    {
+        cout << "\n\n---------------- FLIGHT PATHS ----------------\n";
+        cout << "\n1. Enter Flight Paths.";
+        cout << "\n2. Search Flight Path.";
+        cout << "\n3. Exit";
+
+        int choice;
+        cout << "\n\nEnter Your Choice : ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 1:
+            g.create_graph();
+            cout << "\nFlight Path Added Successfully";
+            break;
+        
+        case 2:
+            g.BFS();
+            break;
+
+        case 3:
+            ans = false;
+
+        default:
+            cout << "\nEnter Valid Choice ...!";
+            break;
+        }
+    }
+    return 0;
+}

@@ -1,0 +1,156 @@
+#create set
+def create(set):
+    n = int(input("Enter Number of Elements :"))
+    for i in range(n):
+        element = str(input("Enter Element  :"))
+        if element not in set:
+            set.append(element)
+
+#add element
+def add(set,element):    
+    if element not in set:
+        set.append(element)
+
+#remove element
+def remove(set,element):
+    if element in set:
+        set.remove(element)
+
+#search element
+def search(set,element):
+    if element in set:
+        print("\nElement is present in set")
+    else:
+        print("\nElement is not present in set")
+
+#set size
+def size(set):
+    n=0
+    for i in set:
+        n=n+1
+    print(n)
+
+#intersection 
+def intersection(set1,set2,set3):
+    for i in set1:
+        for j in set2:
+            if(i==j):
+                set3.append(i)
+
+#difference
+def difference(set1,set2,set3):
+    for i in set1:
+        if i not in set2:
+            set3.append(i)
+
+#union 
+def union(set1,set2,set3):
+    for i in set1:
+        set3.append(i)
+    for j in set2:
+        if j not in set3:
+            set3.append(j)
+
+#subset
+def sub(set,subset):
+    for i in subset:
+        if i not in set:
+            print("\nGiven set is not a subset")
+        else:
+            print("\nGiven set is a subset")
+
+#display
+def display(set):
+    print("[",end=" ")
+    for i in set:
+        print(i,end=" ")
+    print("]")
+
+#menu
+set=[]
+print("\nSet Operations")
+print("-------------------")
+
+ans=True
+while(ans):
+    print("Menu")
+    print("-------------------")
+    print("\n1.Create Set")
+    print("\n2.Add Element in Set")
+    print("\n3.Remove Element from Set")
+    print("\n4.Search Element in Set")
+    print("\n5.Set Size")
+    print("\n6.Intersection of Sets")
+    print("\n7.Difference of Sets")
+    print("\n8.Union of Sets")
+    print("\n9.Subset")
+    print("\n10.Exit")
+
+    choice=int(input("\nEnter your choice   :"))
+    match choice:
+        case 1:
+            create(set)
+            print("\nSet created successfully")
+            display(set)
+        
+        case 2:
+            element=str(input("\nEnter element to add   :"))
+            add(set,element)
+            display(set)
+        
+        case 3:
+            element=str(input("\nEnter element to remove    :"))
+            remove(set,element)
+            display(set)
+
+        case 4:
+            element=str(input("\nEnter element to search    :"))
+            search(set,element)
+            display(set)
+
+        case 5:
+            size(set)
+
+        case 6:
+            set1=[]
+            print("\nEnter Set1:")
+            create(set1)
+            set2=[]
+            print("\nEnter Set2:")
+            create(set2)
+            set3=[]
+            intersection(set1,set2,set3)
+            display(set3)
+
+        case 7:
+            set1=[]
+            print("\nEnter Set1:")
+            create(set1)
+            set2=[]
+            print("\nEnter Set2:")
+            create(set2)
+            set3=[]
+            difference(set1,set2,set3)
+            display(set3)
+
+        case 8:
+            set1=[]
+            print("\nEnter Set1:")
+            create(set1)
+            set2=[]
+            print("\nEnter Set2:")
+            create(set2)
+            set3=[]
+            union(set1,set2,set3)
+            display(set3)
+
+        case 9:
+            subset=[]
+            create(subset)
+            sub(set,subset)
+        
+        case 10:
+            ans=False
+        
+        case _:
+            print("\nInvalid Option")
